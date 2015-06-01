@@ -24,3 +24,7 @@ var (
 	home, errInit = homedir.Dir()
 	dotvim        = filepath.Join(home, ".vim")
 )
+
+func ToDestinationPath(uri, filetype string) (string, error) {
+	return filepath.Join(dotvim, "bundle", "vim-unbundle"), nil
+}
