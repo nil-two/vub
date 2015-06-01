@@ -46,12 +46,14 @@ var destinationPathTests = []struct {
 	src      string
 	dst      string
 }{
+	//No filetype
 	{
 		"",
 		"https://github.com/sunaku/vim-unbundle",
 		filepath.Join(dotvim, "bundle", "vim-unbundle"),
 	},
 
+	//Filetype specified
 	{
 		"go",
 		"https://github.com/fatih/vim-go",
