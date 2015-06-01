@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os/exec"
 	"path/filepath"
 	"reflect"
 	"testing"
@@ -90,6 +91,23 @@ func TestPackage(t *testing.T) {
 	}
 	if !reflect.DeepEqual(actual, expect) {
 		t.Errorf("(uri=%q, filetype=%q): got %q, want %q",
+			filetype, src, actual, expect)
+	}
+}
+
+func TestPackageToCommnad(t *testing.T) {
+	src, filetype := "sunaku/vim-unbundle", ""
+	p, err := NewPackage(src, filetype)
+	if err != nil {
+		t.Errorf("NewPackage(%q, %q) returns %q, want nil",
+			src, filetype, err)
+	}
+	expect := exec.Command("git", "clone",
+		"https://github.com/sunaku/vim-unbundle",
+		filepath.Join(dotvim, "bundle", "vim-unbundle"))
+	actual := p.ToCommand()
+	if !reflect.DeepEqual(actual.Args, expect.Args) {
+		t.Errorf("(filetype=%q, uri=%q): got %q, want %q",
 			filetype, src, actual, expect)
 	}
 }
