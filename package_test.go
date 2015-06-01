@@ -54,12 +54,22 @@ var destinationPathTests = []struct {
 		"https://github.com/sunaku/vim-unbundle",
 		filepath.Join(dotvim, "bundle", "vim-unbundle"),
 	},
+	{
+		"",
+		"sunaku/vim-unbundle",
+		filepath.Join(dotvim, "bundle", "vim-unbundle"),
+	},
 
 	//Filetype specified
 	{
 		"go",
 		"https://github.com/fatih/vim-go",
 		filepath.Join(dotvim, "ftbundle", "go", "vim-go"),
+	},
+	{
+		"perl",
+		"https://github.com/hotchpotch/perldoc-vim",
+		filepath.Join(dotvim, "ftbundle", "perl", "perldoc-vim"),
 	},
 }
 
