@@ -50,6 +50,12 @@ var destinationPathTests = []struct {
 		"https://github.com/sunaku/vim-unbundle",
 		filepath.Join(dotvim, "bundle", "vim-unbundle"),
 	},
+
+	{
+		"go",
+		"https://github.com/fatih/vim-go",
+		filepath.Join(dotvim, "ftbundle", "go", "vim-go"),
+	},
 }
 
 func TestDestinationPath(t *testing.T) {
