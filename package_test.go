@@ -71,7 +71,7 @@ func TestDestinationPath(t *testing.T) {
 				test.src, err)
 		}
 		if actual != expect {
-			t.Errorf("(filetype=%q, uri=%q): got %q, want %q",
+			t.Errorf("(uri=%q, filetype=%q): got %q, want %q",
 				test.filetype, test.src, actual, expect)
 		}
 	}
@@ -89,7 +89,7 @@ func TestPackage(t *testing.T) {
 			src, filetype, err)
 	}
 	if !reflect.DeepEqual(actual, expect) {
-		t.Errorf("(filetype=%q, uri=%q): got %q, want %q",
+		t.Errorf("(uri=%q, filetype=%q): got %q, want %q",
 			filetype, src, actual, expect)
 	}
 }
