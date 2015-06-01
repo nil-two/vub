@@ -2,6 +2,7 @@ package main
 
 import (
 	"path/filepath"
+	"reflect"
 	"testing"
 )
 
@@ -73,5 +74,22 @@ func TestDestinationPath(t *testing.T) {
 			t.Errorf("(filetype=%q, uri=%q): got %q, want %q",
 				test.filetype, test.src, actual, expect)
 		}
+	}
+}
+
+func TestPackage(t *testing.T) {
+	src, filetype := "sunaku/vim-unbundle", ""
+	expect := &Package{
+		src: "https://github.com/sunaku/vim-unbundle",
+		dst: filepath.Join(dotvim, "bundle", "vim-unbundle"),
+	}
+	actual, err := NewPackage(src, filetype)
+	if err != nil {
+		t.Errorf("NewPackage(%q, %q) returns %q, want nil",
+			src, filetype, err)
+	}
+	if !reflect.DeepEqual(actual, expect) {
+		t.Errorf("(filetype=%q, uri=%q): got %q, want %q",
+			filetype, src, actual, expect)
 	}
 }
