@@ -1,6 +1,7 @@
 package main
 
 import (
+	"path/filepath"
 	"testing"
 )
 
@@ -30,11 +31,47 @@ func TestSourceURI(t *testing.T) {
 		expect := test.dst
 		actual, err := ToSourceURI(test.src)
 		if err != nil {
-			t.Errorf("ToSourceURI(%q) returns %q, want nil", err)
+			t.Errorf("ToSourceURI(%q) returns %q, want nil",
+				test.src, err)
 		}
 		if actual != expect {
 			t.Errorf("%q: got %q, want %q",
 				test.src, actual, expect)
+		}
+	}
+}
+
+var destinationPathTests = []struct {
+	filetype string
+	src      string
+	dst      string
+}{
+	//No filetype
+	{
+		"",
+		"https://github.com/sunaku/vim-unbundle",
+		filepath.Join(dotvim, "bundle", "vim-unbundle"),
+	},
+
+	//Filetype specified
+	{
+		"go",
+		"https://github.com/fatih/vim-go",
+		filepath.Join(dotvim, "ftbundle", "go", "vim-go"),
+	},
+}
+
+func TestDestinationPath(t *testing.T) {
+	for _, test := range destinationPathTests {
+		expect := test.dst
+		actual, err := ToDestinationPath(test.src, test.filetype)
+		if err != nil {
+			t.Errorf("ToSourceURI(%q) returns %q, want nil",
+				test.src, err)
+		}
+		if actual != expect {
+			t.Errorf("(filetype=%q, uri=%q): got %q, want %q",
+				test.filetype, test.src, actual, expect)
 		}
 	}
 }
