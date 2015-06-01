@@ -56,3 +56,29 @@ func TestSourceURI(t *testing.T) {
 		}
 	}
 }
+
+var destinationPathTests = []struct {
+	filetype string
+	src      string
+	dst      string
+}{
+	{
+		"",
+		"https://github.com/sunaku/vim-unbundle",
+		filepath.Join(dotvim, "bundle", "vim-unbundle"),
+	},
+}
+
+func TestDestinationPath(t *testing.T) {
+	for _, test := range destinationPathTests {
+		expect := test.dst
+		actual, err := ToDestinationPath(test.src, test.filetype)
+		if err != nil {
+			t.Errorf("ToSourceURI(%q) returns %q, want nil", err)
+		}
+		if actual != expect {
+			t.Errorf("(filetype=%q, uri=%q): got %q, want %q",
+				test.filetype, test.src, actual, expect)
+		}
+	}
+}
