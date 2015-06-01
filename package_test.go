@@ -8,11 +8,13 @@ var sourceURITests = []struct {
 	src string
 	dst string
 }{
+	//Full URI
 	{
 		"https://github.com/sunaku/vim-unbundle",
 		"https://github.com/sunaku/vim-unbundle",
 	},
 
+	//Short GitHub URI
 	{
 		"Shougo/neobundle.vim",
 		"https://github.com/Shougo/neobundle.vim",
