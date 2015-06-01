@@ -39,5 +39,16 @@ type Package struct {
 }
 
 func NewPackage(uri, filetype string) (*Package, error) {
-	return &Package{}, nil
+	src, err := ToSourceURI(uri)
+	if err != nil {
+		return nil, err
+	}
+	dst, err := ToDestinationPath(uri, filetype)
+	if err != nil {
+		return nil, err
+	}
+	return &Package{
+		src: src,
+		dst: dst,
+	}, nil
 }
