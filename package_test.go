@@ -31,7 +31,8 @@ func TestSourceURI(t *testing.T) {
 		expect := test.dst
 		actual, err := ToSourceURI(test.src)
 		if err != nil {
-			t.Errorf("ToSourceURI(%q) returns %q, want nil", err)
+			t.Errorf("ToSourceURI(%q) returns %q, want nil",
+				test.src, err)
 		}
 		if actual != expect {
 			t.Errorf("%q: got %q, want %q",
@@ -63,7 +64,8 @@ func TestDestinationPath(t *testing.T) {
 		expect := test.dst
 		actual, err := ToDestinationPath(test.src, test.filetype)
 		if err != nil {
-			t.Errorf("ToSourceURI(%q) returns %q, want nil", err)
+			t.Errorf("ToSourceURI(%q) returns %q, want nil",
+				test.src, err)
 		}
 		if actual != expect {
 			t.Errorf("(filetype=%q, uri=%q): got %q, want %q",
