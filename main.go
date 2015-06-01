@@ -1,7 +1,10 @@
 package main
 
 import (
+	"path/filepath"
 	"regexp"
+
+	"github.com/mitchellh/go-homedir"
 )
 
 var (
@@ -16,3 +19,8 @@ func ToSourceURI(uri string) (string, error) {
 		return uri, nil
 	}
 }
+
+var (
+	home, errInit = homedir.Dir()
+	dotvim        = filepath.Join(home, ".vim")
+)
