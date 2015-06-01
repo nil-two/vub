@@ -26,5 +26,9 @@ var (
 )
 
 func ToDestinationPath(uri, filetype string) (string, error) {
-	return filepath.Join(dotvim, "bundle", "vim-unbundle"), nil
+	name := filepath.Base(uri)
+	if filetype == "" {
+		return filepath.Join(dotvim, "bundle", name), nil
+	}
+	return filepath.Join(dotvim, "ftbundle", filetype, name), nil
 }
