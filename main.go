@@ -32,3 +32,23 @@ func ToDestinationPath(uri, filetype string) (string, error) {
 	}
 	return filepath.Join(dotvim, "ftbundle", filetype, name), nil
 }
+
+type Package struct {
+	src string
+	dst string
+}
+
+func NewPackage(uri, filetype string) (*Package, error) {
+	src, err := ToSourceURI(uri)
+	if err != nil {
+		return nil, err
+	}
+	dst, err := ToDestinationPath(uri, filetype)
+	if err != nil {
+		return nil, err
+	}
+	return &Package{
+		src: src,
+		dst: dst,
+	}, nil
+}
