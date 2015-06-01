@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os/exec"
 	"path/filepath"
 	"regexp"
 
@@ -51,4 +52,8 @@ func NewPackage(uri, filetype string) (*Package, error) {
 		src: src,
 		dst: dst,
 	}, nil
+}
+
+func (p *Package) ToCommand() *exec.Cmd {
+	return exec.Command("git", "clone", p.src, p.dst)
 }
