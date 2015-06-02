@@ -11,6 +11,13 @@ import (
 	"github.com/mitchellh/go-homedir"
 )
 
+func shortUsage() {
+	os.Stderr.WriteString(`
+usage: vub [option(s)] <repository-uri>
+try 'vub --help' for more information.
+`[1:])
+}
+
 func usage() {
 	os.Stderr.WriteString(`
 usage: vub [option(s)] <repository-uri>
