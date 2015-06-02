@@ -56,8 +56,9 @@ func ToDestinationPath(uri, filetype string) (string, error) {
 }
 
 type Package struct {
-	src string
-	dst string
+	verbose bool
+	src     string
+	dst     string
 }
 
 func NewPackage(uri, filetype string) (*Package, error) {
@@ -77,6 +78,10 @@ func NewPackage(uri, filetype string) (*Package, error) {
 
 func (p *Package) ToCommand() *exec.Cmd {
 	return exec.Command("git", "clone", p.src, p.dst)
+}
+
+func (p *Package) Verbose(enable bool) {
+	p.verbose = enable
 }
 
 func main() {
