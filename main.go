@@ -76,7 +76,7 @@ func NewPackage(uri, filetype string) (*Package, error) {
 	}, nil
 }
 
-func (p *Package) ToCommand() *exec.Cmd {
+func (p *Package) toCommand() *exec.Cmd {
 	return exec.Command("git", "clone", p.src, p.dst)
 }
 
@@ -110,7 +110,7 @@ func main() {
 		os.Exit(2)
 	}
 
-	c := p.ToCommand()
+	c := p.toCommand()
 	if err := c.Run(); err != nil {
 		fmt.Fprintln(os.Stderr, "vub:", err)
 		os.Exit(1)
