@@ -1,12 +1,26 @@
 package main
 
 import (
+	"flag"
+	"fmt"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
 
 	"github.com/mitchellh/go-homedir"
 )
+
+func usage() {
+	os.Stderr.WriteString(`
+usage: vub [option(s)] <repository-uri>
+install Vim plugin to under the management of vim-unbundle.
+
+options:
+  -h, --help                show this help message
+  -f, --filetype=TYPE       installing under the ftbundle/TYPE
+`[1:])
+}
 
 var (
 	ShortGitHubURI = regexp.MustCompile(`^[\w\-.]+/[\w\-.]+$`)
