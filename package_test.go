@@ -91,8 +91,9 @@ func TestDestinationPath(t *testing.T) {
 func TestPackage(t *testing.T) {
 	src, filetype := "sunaku/vim-unbundle", ""
 	expect := &Package{
-		src: "https://github.com/sunaku/vim-unbundle",
-		dst: filepath.Join(dotvim, "bundle", "vim-unbundle"),
+		verbose: false,
+		src:     "https://github.com/sunaku/vim-unbundle",
+		dst:     filepath.Join(dotvim, "bundle", "vim-unbundle"),
 	}
 	actual, err := NewPackage(src, filetype)
 	if err != nil {
@@ -119,5 +120,21 @@ func TestPackageToCommnad(t *testing.T) {
 	if !reflect.DeepEqual(actual.Args, expect.Args) {
 		t.Errorf("(filetype=%q, uri=%q): got %q, want %q",
 			filetype, src, actual, expect)
+	}
+}
+
+func TestVerbose(t *testing.T) {
+	src, filetype := "sunaku/vim-unbundle", ""
+	p, err := NewPackage(src, filetype)
+	if err != nil {
+		t.Errorf("NewPackage(%q, %q) returns %q, want nil",
+			src, filetype, err)
+	}
+	p.Verbose(true)
+	expect := true
+	actual := p.verbose
+	if actual != expect {
+		t.Errorf("got %v, want %v",
+			actual, expect)
 	}
 }
