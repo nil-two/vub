@@ -28,6 +28,7 @@ install Vim plugin to under the management of vim-unbundle.
 options:
   -h, --help                show this help message
   -f, --filetype=TYPE       installing under the ftbundle/TYPE
+  -v, --verbose             display the process
 `[1:])
 }
 
@@ -100,11 +101,11 @@ func (p *Package) Verbose(enable bool) {
 }
 
 func main() {
-	var filetype string
+	filetype, verbose := "", false
 	flag.StringVar(&filetype, "f", "", "")
 	flag.StringVar(&filetype, "filetype", "", "")
 
-	var isHelp bool
+	isHelp := false
 	flag.BoolVar(&isHelp, "h", false, "")
 	flag.BoolVar(&isHelp, "help", false, "")
 	flag.Usage = usage
@@ -124,9 +125,9 @@ func main() {
 		fmt.Fprintln(os.Stderr, "vub:", err)
 		os.Exit(2)
 	}
+	p.Verbose(verbose)
 
-	c := p.toCommand()
-	if err := c.Run(); err != nil {
+	if err := p.Install(os.Stdout); err != nil {
 		fmt.Fprintln(os.Stderr, "vub:", err)
 		os.Exit(1)
 	}
