@@ -3,10 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	"github.com/mitchellh/go-homedir"
 )
@@ -78,6 +80,19 @@ func NewPackage(uri, filetype string) (*Package, error) {
 
 func (p *Package) toCommand() *exec.Cmd {
 	return exec.Command("git", "clone", p.src, p.dst)
+}
+
+func (p *Package) Install(w io.Writer) error {
+	c := p.toCommand()
+	if w != nil && p.verbose {
+		c.Stdout = w
+		c.Stderr = w
+		_, err := io.WriteString(w, strings.Join(c.Args, " "))
+		if err != nil {
+			return err
+		}
+	}
+	return c.Run()
 }
 
 func (p *Package) Verbose(enable bool) {
