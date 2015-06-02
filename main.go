@@ -3,10 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	"github.com/mitchellh/go-homedir"
 )
@@ -26,6 +28,7 @@ install Vim plugin to under the management of vim-unbundle.
 options:
   -h, --help                show this help message
   -f, --filetype=TYPE       installing under the ftbundle/TYPE
+  -v, --verbose             display the process
 `[1:])
 }
 
@@ -56,8 +59,9 @@ func ToDestinationPath(uri, filetype string) (string, error) {
 }
 
 type Package struct {
-	src string
-	dst string
+	verbose bool
+	src     string
+	dst     string
 }
 
 func NewPackage(uri, filetype string) (*Package, error) {
@@ -75,16 +79,33 @@ func NewPackage(uri, filetype string) (*Package, error) {
 	}, nil
 }
 
-func (p *Package) ToCommand() *exec.Cmd {
+func (p *Package) toCommand() *exec.Cmd {
 	return exec.Command("git", "clone", p.src, p.dst)
 }
 
+func (p *Package) Install(w io.Writer) error {
+	c := p.toCommand()
+	if w != nil && p.verbose {
+		c.Stdout = w
+		c.Stderr = w
+		_, err := io.WriteString(w, strings.Join(c.Args, " "))
+		if err != nil {
+			return err
+		}
+	}
+	return c.Run()
+}
+
+func (p *Package) Verbose(enable bool) {
+	p.verbose = enable
+}
+
 func main() {
-	var filetype string
+	filetype, verbose := "", false
 	flag.StringVar(&filetype, "f", "", "")
 	flag.StringVar(&filetype, "filetype", "", "")
 
-	var isHelp bool
+	isHelp := false
 	flag.BoolVar(&isHelp, "h", false, "")
 	flag.BoolVar(&isHelp, "help", false, "")
 	flag.Usage = usage
@@ -104,9 +125,9 @@ func main() {
 		fmt.Fprintln(os.Stderr, "vub:", err)
 		os.Exit(2)
 	}
+	p.Verbose(verbose)
 
-	c := p.ToCommand()
-	if err := c.Run(); err != nil {
+	if err := p.Install(os.Stdout); err != nil {
 		fmt.Fprintln(os.Stderr, "vub:", err)
 		os.Exit(1)
 	}
