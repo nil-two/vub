@@ -78,3 +78,36 @@ func NewPackage(uri, filetype string) (*Package, error) {
 func (p *Package) ToCommand() *exec.Cmd {
 	return exec.Command("git", "clone", p.src, p.dst)
 }
+
+func main() {
+	var filetype string
+	flag.StringVar(&filetype, "f", "", "")
+	flag.StringVar(&filetype, "filetype", "", "")
+
+	var isHelp bool
+	flag.BoolVar(&isHelp, "h", false, "")
+	flag.BoolVar(&isHelp, "help", false, "")
+	flag.Usage = usage
+	flag.Parse()
+	switch {
+	case isHelp:
+		usage()
+		os.Exit(0)
+	case flag.NArg() < 1:
+		shortUsage()
+		os.Exit(2)
+	}
+	uri := flag.Arg(0)
+
+	p, err := NewPackage(uri, filetype)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "vub:", err)
+		os.Exit(2)
+	}
+
+	c := p.ToCommand()
+	if err := c.Run(); err != nil {
+		fmt.Fprintln(os.Stderr, "vub:", err)
+		os.Exit(1)
+	}
+}
