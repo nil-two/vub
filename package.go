@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
@@ -65,6 +66,11 @@ func (p *Package) toCommand() *exec.Cmd {
 
 func (p *Package) Verbose(enable bool) {
 	p.verbose = enable
+}
+
+func (p *Package) installed() bool {
+	_, err := os.Stat(p.dst)
+	return err == nil
 }
 
 func (p *Package) Install(out io.Writer) error {
