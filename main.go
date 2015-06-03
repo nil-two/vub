@@ -34,8 +34,8 @@ func main() {
 	filetype, removeMode, verbose := "", false, false
 	flag.StringVar(&filetype, "f", "", "")
 	flag.StringVar(&filetype, "filetype", "", "")
-	flag.BoolVar(&verbose, "r", false, "")
-	flag.BoolVar(&verbose, "remove", false, "")
+	flag.BoolVar(&removeMode, "r", false, "")
+	flag.BoolVar(&removeMode, "remove", false, "")
 	flag.BoolVar(&verbose, "v", false, "")
 	flag.BoolVar(&verbose, "verbose", false, "")
 
