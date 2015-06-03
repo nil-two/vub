@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"os/exec"
 	"path/filepath"
 	"reflect"
@@ -133,6 +134,22 @@ func TestVerbose(t *testing.T) {
 	p.Verbose(true)
 	expect := true
 	actual := p.verbose
+	if actual != expect {
+		t.Errorf("got %v, want %v",
+			actual, expect)
+	}
+}
+
+func TestInstalled(t *testing.T) {
+	src, filetype := "sunaku/vim-unbundle", ""
+	p, err := NewPackage(src, filetype)
+	if err != nil {
+		t.Errorf("NewPackage(%q, %q) returns %q, want nil",
+			src, filetype, err)
+	}
+	_, err = os.Stat(p.dst)
+	expect := err == nil
+	actual := p.installed()
 	if actual != expect {
 		t.Errorf("got %v, want %v",
 			actual, expect)
