@@ -33,6 +33,8 @@ func main() {
 	filetype, verbose := "", false
 	flag.StringVar(&filetype, "f", "", "")
 	flag.StringVar(&filetype, "filetype", "", "")
+	flag.BoolVar(&verbose, "v", false, "")
+	flag.BoolVar(&verbose, "verbose", false, "")
 
 	isHelp := false
 	flag.BoolVar(&isHelp, "h", false, "")
