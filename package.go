@@ -95,9 +95,15 @@ func (p *Package) Install(out io.Writer) error {
 	return nil
 }
 
-func (p *Package) Remove() error {
+func (p *Package) Remove(out io.Writer) error {
 	if p.installed() {
 		return nil
+	}
+	if out != nil && p.verbose {
+		_, err := io.WriteString(out, "rm -r "+p.dst+"\n")
+		if err != nil {
+			return err
+		}
 	}
 	return os.RemoveAll(p.dst)
 }

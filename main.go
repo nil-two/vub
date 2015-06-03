@@ -63,7 +63,7 @@ func main() {
 
 	switch {
 	case removeMode:
-		if err := p.Remove(); err != nil {
+		if err := p.Remove(os.Stdout); err != nil {
 			fmt.Fprintln(os.Stderr, "vub:", err)
 			os.Exit(1)
 		}
