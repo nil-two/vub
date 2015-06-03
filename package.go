@@ -94,3 +94,10 @@ func (p *Package) Install(out io.Writer) error {
 	}
 	return nil
 }
+
+func (p *Package) Remove() error {
+	if p.installed() {
+		return nil
+	}
+	return os.RemoveAll(p.dst)
+}
