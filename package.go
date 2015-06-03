@@ -74,6 +74,9 @@ func (p *Package) installed() bool {
 }
 
 func (p *Package) Install(out io.Writer) error {
+	if p.installed() {
+		return nil
+	}
 	c := p.toCommand()
 	w := bytes.NewBuffer(make([]byte, 0))
 	c.Stderr = w
