@@ -18,10 +18,14 @@ func usage() {
 usage: vub [option(s)] <repository-uri>
 install Vim plugin to under the management of vim-unbundle.
 
+repository-uri:
+  sunaku/vim-unbundle                    # short URI
+  https://github.com/sunaku/vim-unbundle # full URI
+
 options:
-  -h, --help                show this help message
   -f, --filetype=TYPE       installing under the ftbundle/TYPE
   -v, --verbose             display the process
+  -h, --help                show this help message
 `[1:])
 }
 
