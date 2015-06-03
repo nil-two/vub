@@ -24,6 +24,7 @@ Usage
 
 	options:
 	  -f, --filetype=TYPE       installing under the ftbundle/TYPE
+	  -r, --remove              change the behavior to remove
 	  -v, --verbose             display the process
 	  -h, --help                show this help message
 
