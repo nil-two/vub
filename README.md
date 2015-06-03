@@ -16,13 +16,13 @@ Install Vim plugin to under the management of
 Usage
 -----
 
-	$ vub [option(s)] <repository-uri>
+	$ vub [OPTION]... URI
 
-	repository-uri:
+	URI:
 	  sunaku/vim-unbundle                    # short URI
 	  https://github.com/sunaku/vim-unbundle # full URI
 
-	options:
+	Options:
 	  -f, --filetype=TYPE       installing under the ftbundle/TYPE
 	  -r, --remove              change the behavior to remove
 	  -v, --verbose             display the process

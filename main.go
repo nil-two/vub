@@ -8,21 +8,21 @@ import (
 
 func shortUsage() {
 	os.Stderr.WriteString(`
-usage: vub [option(s)] <repository-uri>
-try 'vub --help' for more information.
+Usage: vub [OPTION]... URI
+Try 'vub --help' for more information.
 `[1:])
 }
 
 func usage() {
 	os.Stderr.WriteString(`
-usage: vub [option(s)] <repository-uri>
-install Vim plugin to under the management of vim-unbundle.
+Usage: vub [OPTION]... URI
+Install Vim plugin to under the management of vim-unbundle.
 
-repository-uri:
+URI:
   sunaku/vim-unbundle                    # short URI
   https://github.com/sunaku/vim-unbundle # full URI
 
-options:
+Options:
   -f, --filetype=TYPE       installing under the ftbundle/TYPE
   -r, --remove              change the behavior to remove
   -v, --verbose             display the process
