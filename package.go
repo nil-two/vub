@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
 	"io"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
@@ -65,15 +68,29 @@ func (p *Package) Verbose(enable bool) {
 	p.verbose = enable
 }
 
-func (p *Package) Install(w io.Writer) error {
+func (p *Package) installed() bool {
+	_, err := os.Stat(p.dst)
+	return err == nil
+}
+
+func (p *Package) Install(out io.Writer) error {
+	if p.installed() {
+		return nil
+	}
 	c := p.toCommand()
-	if w != nil && p.verbose {
-		c.Stdout = w
-		c.Stderr = w
-		_, err := io.WriteString(w, strings.Join(c.Args, " "))
+	w := bytes.NewBuffer(make([]byte, 0))
+	c.Stderr = w
+	if out != nil && p.verbose {
+		c.Stdout = out
+		c.Stderr = out
+		_, err := io.WriteString(out, strings.Join(c.Args, " ")+"\n")
 		if err != nil {
 			return err
 		}
 	}
-	return c.Run()
+	if err := c.Run(); err != nil {
+		return fmt.Errorf("%s\n%s",
+			err.Error(), strings.TrimRight(w.String(), "\n"))
+	}
+	return nil
 }
