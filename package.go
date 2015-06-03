@@ -83,7 +83,7 @@ func (p *Package) Install(out io.Writer) error {
 	if out != nil && p.verbose {
 		c.Stdout = out
 		c.Stderr = out
-		_, err := io.WriteString(out, strings.Join(c.Args, " ")+"\n")
+		_, err := fmt.Fprintln(out, strings.Join(c.Args, " "))
 		if err != nil {
 			return err
 		}
@@ -93,4 +93,17 @@ func (p *Package) Install(out io.Writer) error {
 			err.Error(), strings.TrimRight(w.String(), "\n"))
 	}
 	return nil
+}
+
+func (p *Package) Remove(out io.Writer) error {
+	if p.installed() {
+		return nil
+	}
+	if out != nil && p.verbose {
+		_, err := fmt.Fprintln(out, "rm -r", p.dst)
+		if err != nil {
+			return err
+		}
+	}
+	return os.RemoveAll(p.dst)
 }

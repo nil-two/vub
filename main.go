@@ -24,15 +24,18 @@ repository-uri:
 
 options:
   -f, --filetype=TYPE       installing under the ftbundle/TYPE
+  -r, --remove              change the behavior to remove
   -v, --verbose             display the process
   -h, --help                show this help message
 `[1:])
 }
 
 func main() {
-	filetype, verbose := "", false
+	filetype, removeMode, verbose := "", false, false
 	flag.StringVar(&filetype, "f", "", "")
 	flag.StringVar(&filetype, "filetype", "", "")
+	flag.BoolVar(&removeMode, "r", false, "")
+	flag.BoolVar(&removeMode, "remove", false, "")
 	flag.BoolVar(&verbose, "v", false, "")
 	flag.BoolVar(&verbose, "verbose", false, "")
 
@@ -58,8 +61,16 @@ func main() {
 	}
 	p.Verbose(verbose)
 
-	if err := p.Install(os.Stdout); err != nil {
-		fmt.Fprintln(os.Stderr, "vub:", err)
-		os.Exit(1)
+	switch {
+	case removeMode:
+		if err := p.Remove(os.Stdout); err != nil {
+			fmt.Fprintln(os.Stderr, "vub:", err)
+			os.Exit(1)
+		}
+	default:
+		if err := p.Install(os.Stdout); err != nil {
+			fmt.Fprintln(os.Stderr, "vub:", err)
+			os.Exit(1)
+		}
 	}
 }
