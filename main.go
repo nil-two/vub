@@ -31,11 +31,13 @@ Options:
 }
 
 func main() {
-	filetype, removeMode, verbose := "", false, false
+	filetype, removeMode, updateMode, verbose := "", false, false, false
 	flag.StringVar(&filetype, "f", "", "")
 	flag.StringVar(&filetype, "filetype", "", "")
 	flag.BoolVar(&removeMode, "r", false, "")
 	flag.BoolVar(&removeMode, "remove", false, "")
+	flag.BoolVar(&updateMode, "u", false, "")
+	flag.BoolVar(&updateMode, "update", false, "")
 	flag.BoolVar(&verbose, "v", false, "")
 	flag.BoolVar(&verbose, "verbose", false, "")
 
@@ -64,6 +66,11 @@ func main() {
 	switch {
 	case removeMode:
 		if err := p.Remove(os.Stdout); err != nil {
+			fmt.Fprintln(os.Stderr, "vub:", err)
+			os.Exit(1)
+		}
+	case updateMode:
+		if err := p.Update(os.Stdout); err != nil {
 			fmt.Fprintln(os.Stderr, "vub:", err)
 			os.Exit(1)
 		}
