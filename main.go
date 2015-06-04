@@ -25,6 +25,7 @@ URI:
 Options:
   -f, --filetype=TYPE       installing under the ftbundle/TYPE
   -r, --remove              change the behavior to remove
+  -u, --update              change the behavior to clean update
   -v, --verbose             display the process
   -h, --help                show this help message
 `[1:])
