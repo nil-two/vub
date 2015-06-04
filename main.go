@@ -32,17 +32,21 @@ Options:
 }
 
 func main() {
-	filetype, removeMode, updateMode, verbose := "", false, false, false
+	var filetype string
 	flag.StringVar(&filetype, "f", "", "")
 	flag.StringVar(&filetype, "filetype", "", "")
+
+	var removeMode, updateMode bool
 	flag.BoolVar(&removeMode, "r", false, "")
 	flag.BoolVar(&removeMode, "remove", false, "")
 	flag.BoolVar(&updateMode, "u", false, "")
 	flag.BoolVar(&updateMode, "update", false, "")
+
+	var verbose bool
 	flag.BoolVar(&verbose, "v", false, "")
 	flag.BoolVar(&verbose, "verbose", false, "")
 
-	isHelp := false
+	var isHelp bool
 	flag.BoolVar(&isHelp, "h", false, "")
 	flag.BoolVar(&isHelp, "help", false, "")
 	flag.Usage = usage
