@@ -53,6 +53,10 @@ func main() {
 	case flag.NArg() < 1:
 		shortUsage()
 		os.Exit(2)
+	case removeMode && updateMode:
+		fmt.Fprintln(os.Stderr, "vub:", "cannot specify multiple mode")
+		shortUsage()
+		os.Exit(2)
 	}
 	uri := flag.Arg(0)
 
