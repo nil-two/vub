@@ -31,7 +31,7 @@ Options:
 `[1:])
 }
 
-func _main() (code int, err error) {
+func main() {
 	var filetype string
 	flag.StringVar(&filetype, "f", "", "")
 	flag.StringVar(&filetype, "filetype", "", "")
@@ -54,44 +54,33 @@ func _main() (code int, err error) {
 	switch {
 	case isHelp:
 		usage()
-		return 0, nil
+		os.Exit(0)
 	case flag.NArg() < 1:
-		return 2, nil
+		shortUsage()
+		os.Exit(2)
 	case removeMode && updateMode:
-		return 2, fmt.Errorf("cannot specify multiple mode")
+		fmt.Fprintln(os.Stderr, "vub:", "cannot specify multiple mode")
+		os.Exit(2)
 	}
 	uri := flag.Arg(0)
 
 	p, err := NewPackage(uri, filetype)
 	if err != nil {
-		return 1, err
+		fmt.Fprintln(os.Stderr, "vub:", err)
+		os.Exit(1)
 	}
 	p.Verbose(verbose)
 
 	switch {
 	case removeMode:
-		if err := p.Remove(os.Stdout); err != nil {
-			return 1, err
-		}
+		err = p.Remove(os.Stdout)
 	case updateMode:
-		if err := p.Update(os.Stdout); err != nil {
-			return 1, err
-		}
+		err = p.Update(os.Stdout)
 	default:
-		if err := p.Install(os.Stdout); err != nil {
-			return 1, err
-		}
+		err = p.Install(os.Stdout)
 	}
-	return 0, nil
-}
-
-func main() {
-	code, err := _main()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "vub:", err)
+		fmt.Fprintln(os.Stderr, "vub:", err)
+		os.Exit(1)
 	}
-	if code == 2 {
-		shortUsage()
-	}
-	os.Exit(code)
 }
