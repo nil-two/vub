@@ -31,6 +31,10 @@ Options:
 `[1:])
 }
 
+func printError(err error) {
+	fmt.Fprintln(os.Stderr, "vub:", err)
+}
+
 func main() {
 	var filetype string
 	flag.StringVar(&filetype, "f", "", "")
@@ -59,14 +63,14 @@ func main() {
 		shortUsage()
 		os.Exit(2)
 	case removeMode && updateMode:
-		fmt.Fprintln(os.Stderr, "vub:", "cannot specify multiple mode")
+		printError(fmt.Errorf("cannot specify multiple mode"))
 		os.Exit(2)
 	}
 	uri := flag.Arg(0)
 
 	p, err := NewPackage(uri, filetype)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "vub:", err)
+		printError(err)
 		os.Exit(1)
 	}
 	p.Verbose(verbose)
@@ -80,7 +84,7 @@ func main() {
 		err = p.Install(os.Stdout)
 	}
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "vub:", err)
+		printError(err)
 		os.Exit(1)
 	}
 }
