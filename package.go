@@ -96,7 +96,7 @@ func (p *Package) Install(out io.Writer) error {
 }
 
 func (p *Package) Remove(out io.Writer) error {
-	if p.installed() {
+	if !p.installed() {
 		return nil
 	}
 	if out != nil && p.verbose {
