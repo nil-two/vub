@@ -24,10 +24,21 @@ URI:
 
 Options:
   -f, --filetype=TYPE       installing under the ftbundle/TYPE
+  -l, --list                change the behavior to list packages
   -r, --remove              change the behavior to remove
   -u, --update              change the behavior to clean update
   -h, --help                show this help message
 `[1:])
+}
+
+func countTrue(bls ...bool) int {
+	cnt := 0
+	for _, b := range bls {
+		if b {
+			cnt++
+		}
+	}
+	return cnt
 }
 
 func printError(err error) {
@@ -39,7 +50,9 @@ func main() {
 	flag.StringVar(&filetype, "f", "", "")
 	flag.StringVar(&filetype, "filetype", "", "")
 
-	var removeMode, updateMode bool
+	var listMode, removeMode, updateMode bool
+	flag.BoolVar(&listMode, "l", false, "")
+	flag.BoolVar(&listMode, "list", false, "")
 	flag.BoolVar(&removeMode, "r", false, "")
 	flag.BoolVar(&removeMode, "remove", false, "")
 	flag.BoolVar(&updateMode, "u", false, "")
@@ -54,10 +67,10 @@ func main() {
 	case isHelp:
 		usage()
 		os.Exit(0)
-	case flag.NArg() < 1:
+	case !listMode && flag.NArg() < 1:
 		shortUsage()
 		os.Exit(2)
-	case removeMode && updateMode:
+	case countTrue(listMode, removeMode, updateMode) > 1:
 		printError(fmt.Errorf("cannot specify multiple mode"))
 		os.Exit(2)
 	}
@@ -67,6 +80,8 @@ func main() {
 
 	var err error
 	switch {
+	case listMode:
+		err = ListPackages(filetype)
 	case removeMode:
 		err = p.Remove()
 	case updateMode:
