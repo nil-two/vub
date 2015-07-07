@@ -91,9 +91,7 @@ func (p *Package) Remove(out io.Writer) error {
 
 func (p *Package) Update(out io.Writer) error {
 	if p.installed() {
-		if err := p.Remove(out); err != nil {
-			return err
-		}
+		return p.Remove(out)
 	}
 	return p.Install(out)
 }
