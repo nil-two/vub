@@ -30,12 +30,12 @@ var (
 	dotvim        = filepath.Join(home, ".vim")
 )
 
-func ToDestinationPath(uri, filetype string) (string, error) {
+func ToDestinationPath(uri, filetype string) string {
 	name := filepath.Base(uri)
 	if filetype == "" {
-		return filepath.Join(dotvim, "bundle", name), nil
+		return filepath.Join(dotvim, "bundle", name)
 	}
-	return filepath.Join(dotvim, "ftbundle", filetype, name), nil
+	return filepath.Join(dotvim, "ftbundle", filetype, name)
 }
 
 type Package struct {
@@ -45,10 +45,7 @@ type Package struct {
 
 func NewPackage(uri, filetype string) (*Package, error) {
 	src := ToSourceURI(uri)
-	dst, err := ToDestinationPath(uri, filetype)
-	if err != nil {
-		return nil, err
-	}
+	dst := ToDestinationPath(uri, filetype)
 	return &Package{
 		src: src,
 		dst: dst,
