@@ -27,6 +27,16 @@ var sourceURITests = []struct {
 		src: "thinca/vim-quickrun",
 		dst: "https://github.com/thinca/vim-quickrun",
 	},
+
+	//GitHub URI
+	{
+		src: "github.com/Shougo/neobundle.vim",
+		dst: "https://github.com/Shougo/neobundle.vim",
+	},
+	{
+		src: "github.com/thinca/vim-quickrun",
+		dst: "https://github.com/thinca/vim-quickrun",
+	},
 }
 
 func TestSourceURI(t *testing.T) {
