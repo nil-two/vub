@@ -16,12 +16,12 @@ var (
 	ShortGitHubURI = regexp.MustCompile(`^[\w\-.]+/[\w\-.]+$`)
 )
 
-func ToSourceURI(uri string) (string, error) {
+func ToSourceURI(uri string) string {
 	switch {
 	case ShortGitHubURI.MatchString(uri):
-		return "https://github.com/" + uri, nil
+		return "https://github.com/" + uri
 	default:
-		return uri, nil
+		return uri
 	}
 }
 
@@ -44,10 +44,7 @@ type Package struct {
 }
 
 func NewPackage(uri, filetype string) (*Package, error) {
-	src, err := ToSourceURI(uri)
-	if err != nil {
-		return nil, err
-	}
+	src := ToSourceURI(uri)
 	dst, err := ToDestinationPath(uri, filetype)
 	if err != nil {
 		return nil, err
