@@ -83,15 +83,12 @@ func TestDestinationPath(t *testing.T) {
 
 func TestPackage(t *testing.T) {
 	src, filetype := "sunaku/vim-unbundle", ""
+
 	expect := &Package{
 		src: "https://github.com/sunaku/vim-unbundle",
 		dst: filepath.Join(dotvim, "bundle", "vim-unbundle"),
 	}
-	actual, err := NewPackage(src, filetype)
-	if err != nil {
-		t.Errorf("NewPackage(%q, %q) returns %q, want nil",
-			src, filetype, err)
-	}
+	actual := NewPackage(src, filetype)
 	if !reflect.DeepEqual(actual, expect) {
 		t.Errorf("(uri=%q, filetype=%q): got %q, want %q",
 			filetype, src, actual, expect)
@@ -100,11 +97,8 @@ func TestPackage(t *testing.T) {
 
 func TestPackageToCommnad(t *testing.T) {
 	src, filetype := "sunaku/vim-unbundle", ""
-	p, err := NewPackage(src, filetype)
-	if err != nil {
-		t.Errorf("NewPackage(%q, %q) returns %q, want nil",
-			src, filetype, err)
-	}
+	p := NewPackage(src, filetype)
+
 	expect := exec.Command("git", "clone",
 		"https://github.com/sunaku/vim-unbundle",
 		filepath.Join(dotvim, "bundle", "vim-unbundle"))
@@ -117,12 +111,9 @@ func TestPackageToCommnad(t *testing.T) {
 
 func TestInstalled(t *testing.T) {
 	src, filetype := "sunaku/vim-unbundle", ""
-	p, err := NewPackage(src, filetype)
-	if err != nil {
-		t.Errorf("NewPackage(%q, %q) returns %q, want nil",
-			src, filetype, err)
-	}
-	_, err = os.Stat(p.dst)
+	p := NewPackage(src, filetype)
+
+	_, err := os.Stat(p.dst)
 	expect := err == nil
 	actual := p.installed()
 	if actual != expect {
