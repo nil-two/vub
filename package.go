@@ -73,11 +73,12 @@ func (p *Package) Install(out io.Writer) error {
 		return nil
 	}
 	c := p.toCommand()
-	w := bytes.NewBuffer(make([]byte, 0))
-	c.Stderr = w
+	errMessage := bytes.NewBuffer(make([]byte, 0))
+	c.Stderr = errMessage
 	if err := c.Run(); err != nil {
 		return fmt.Errorf("%s\n%s",
-			err.Error(), strings.TrimRight(w.String(), "\n"))
+			err.Error(),
+			strings.TrimRight(errMessage.String(), "\n"))
 	}
 	return nil
 }
