@@ -63,12 +63,9 @@ func main() {
 	}
 	uri := flag.Arg(0)
 
-	p, err := NewPackage(uri, filetype)
-	if err != nil {
-		printError(err)
-		os.Exit(1)
-	}
+	p := NewPackage(uri, filetype)
 
+	var err error
 	switch {
 	case removeMode:
 		err = p.Remove()

@@ -43,13 +43,11 @@ type Package struct {
 	dst string
 }
 
-func NewPackage(uri, filetype string) (*Package, error) {
-	src := ToSourceURI(uri)
-	dst := ToDestinationPath(uri, filetype)
+func NewPackage(uri, filetype string) *Package {
 	return &Package{
-		src: src,
-		dst: dst,
-	}, nil
+		src: ToSourceURI(uri),
+		dst: ToDestinationPath(uri, filetype),
+	}
 }
 
 func (p *Package) toInstallCommand() *exec.Cmd {
