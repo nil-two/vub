@@ -15,6 +15,7 @@ import (
 var (
 	ShortGitHubURI = regexp.MustCompile(`^[\w\-.]+/[\w\-.]+$`)
 	GitHubURI      = regexp.MustCompile(`^github.com/[\w\-.]+/[\w\-.]+$`)
+	BitbucketURI   = regexp.MustCompile(`^bitbucket.org/[\w\-.]+/[\w\-.]+$`)
 )
 
 func ToSourceURI(uri string) string {
@@ -22,6 +23,8 @@ func ToSourceURI(uri string) string {
 	case ShortGitHubURI.MatchString(uri):
 		return "https://github.com/" + uri
 	case GitHubURI.MatchString(uri):
+		return "https://" + uri
+	case BitbucketURI.MatchString(uri):
 		return "https://" + uri
 	default:
 		return uri
