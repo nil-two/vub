@@ -14,18 +14,18 @@ var sourceURITests = []struct {
 }{
 	//Full URI
 	{
-		"https://github.com/sunaku/vim-unbundle",
-		"https://github.com/sunaku/vim-unbundle",
+		src: "https://github.com/sunaku/vim-unbundle",
+		dst: "https://github.com/sunaku/vim-unbundle",
 	},
 
 	//Short GitHub URI
 	{
-		"Shougo/neobundle.vim",
-		"https://github.com/Shougo/neobundle.vim",
+		src: "Shougo/neobundle.vim",
+		dst: "https://github.com/Shougo/neobundle.vim",
 	},
 	{
-		"thinca/vim-quickrun",
-		"https://github.com/thinca/vim-quickrun",
+		src: "thinca/vim-quickrun",
+		dst: "https://github.com/thinca/vim-quickrun",
 	},
 }
 
@@ -51,26 +51,26 @@ var destinationPathTests = []struct {
 }{
 	//No filetype
 	{
-		"",
-		"https://github.com/sunaku/vim-unbundle",
-		filepath.Join(dotvim, "bundle", "vim-unbundle"),
+		filetype: "",
+		src:      "https://github.com/sunaku/vim-unbundle",
+		dst:      filepath.Join(dotvim, "bundle", "vim-unbundle"),
 	},
 	{
-		"",
-		"sunaku/vim-unbundle",
-		filepath.Join(dotvim, "bundle", "vim-unbundle"),
+		filetype: "",
+		src:      "sunaku/vim-unbundle",
+		dst:      filepath.Join(dotvim, "bundle", "vim-unbundle"),
 	},
 
 	//Filetype specified
 	{
-		"go",
-		"https://github.com/fatih/vim-go",
-		filepath.Join(dotvim, "ftbundle", "go", "vim-go"),
+		filetype: "go",
+		src:      "https://github.com/fatih/vim-go",
+		dst:      filepath.Join(dotvim, "ftbundle", "go", "vim-go"),
 	},
 	{
-		"perl",
-		"https://github.com/hotchpotch/perldoc-vim",
-		filepath.Join(dotvim, "ftbundle", "perl", "perldoc-vim"),
+		filetype: "perl",
+		src:      "https://github.com/hotchpotch/perldoc-vim",
+		dst:      filepath.Join(dotvim, "ftbundle", "perl", "perldoc-vim"),
 	},
 }
 
