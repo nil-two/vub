@@ -72,15 +72,16 @@ func (p *Package) Install(out io.Writer) error {
 	if p.installed() {
 		return nil
 	}
+	if _, err := exec.LookPath("git"); err != nil {
+		return err
+	}
 
 	errMessage := bytes.NewBuffer(make([]byte, 0))
 
 	installcmd := p.toInstallCommand()
 	installcmd.Stderr = errMessage
 	if err := installcmd.Run(); err != nil {
-		return fmt.Errorf("%s\n%s",
-			err.Error(),
-			strings.TrimRight(errMessage.String(), "\n"))
+		return fmt.Errorf("%s", strings.TrimSpace(errMessage.String()))
 	}
 	return nil
 }
