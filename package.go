@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -42,6 +43,24 @@ func ToDestinationPath(uri, filetype string) string {
 		return filepath.Join(dotvim, "bundle", name)
 	}
 	return filepath.Join(dotvim, "ftbundle", filetype, name)
+}
+
+func ListPackages(filetype string) error {
+	var path string
+	if filetype == "" {
+		path = filepath.Join(dotvim, "bundle")
+	} else {
+		path = filepath.Join(dotvim, "ftbundle", filetype)
+	}
+
+	files, err := ioutil.ReadDir(path)
+	if err != nil {
+		return err
+	}
+	for _, file := range files {
+		fmt.Println(file.Name())
+	}
+	return nil
 }
 
 type Package struct {
