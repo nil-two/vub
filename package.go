@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -68,7 +67,7 @@ func (p *Package) installed() bool {
 	return err == nil
 }
 
-func (p *Package) Install(out io.Writer) error {
+func (p *Package) Install() error {
 	if p.installed() {
 		return nil
 	}
@@ -86,16 +85,16 @@ func (p *Package) Install(out io.Writer) error {
 	return nil
 }
 
-func (p *Package) Remove(out io.Writer) error {
+func (p *Package) Remove() error {
 	if !p.installed() {
 		return nil
 	}
 	return os.RemoveAll(p.dst)
 }
 
-func (p *Package) Update(out io.Writer) error {
+func (p *Package) Update() error {
 	if p.installed() {
-		return p.Remove(out)
+		return p.Remove()
 	}
-	return p.Install(out)
+	return p.Install()
 }

@@ -71,11 +71,11 @@ func main() {
 
 	switch {
 	case removeMode:
-		err = p.Remove(os.Stdout)
+		err = p.Remove()
 	case updateMode:
-		err = p.Update(os.Stdout)
+		err = p.Update()
 	default:
-		err = p.Install(os.Stdout)
+		err = p.Install()
 	}
 	if err != nil {
 		printError(err)
