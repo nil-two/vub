@@ -72,10 +72,12 @@ func (p *Package) Install(out io.Writer) error {
 	if p.installed() {
 		return nil
 	}
-	c := p.toInstallCommand()
+
 	errMessage := bytes.NewBuffer(make([]byte, 0))
-	c.Stderr = errMessage
-	if err := c.Run(); err != nil {
+
+	installcmd := p.toInstallCommand()
+	installcmd.Stderr = errMessage
+	if err := installcmd.Run(); err != nil {
 		return fmt.Errorf("%s\n%s",
 			err.Error(),
 			strings.TrimRight(errMessage.String(), "\n"))
