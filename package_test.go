@@ -73,11 +73,7 @@ var destinationPathTests = []struct {
 func TestDestinationPath(t *testing.T) {
 	for _, test := range destinationPathTests {
 		expect := test.dst
-		actual, err := ToDestinationPath(test.src, test.filetype)
-		if err != nil {
-			t.Errorf("ToSourceURI(%q) returns %q, want nil",
-				test.src, err)
-		}
+		actual := ToDestinationPath(test.src, test.filetype)
 		if actual != expect {
 			t.Errorf("(uri=%q, filetype=%q): got %q, want %q",
 				test.filetype, test.src, actual, expect)
