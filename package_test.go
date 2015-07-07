@@ -37,6 +37,16 @@ var sourceURITests = []struct {
 		src: "github.com/thinca/vim-quickrun",
 		dst: "https://github.com/thinca/vim-quickrun",
 	},
+
+	//Bitbucket URI
+	{
+		src: "bitbucket.org/anyakichi/vim-textobj-xbrackets",
+		dst: "https://bitbucket.org/anyakichi/vim-textobj-xbrackets",
+	},
+	{
+		src: "bitbucket.org/ns9tks/vim-fuzzyfinder",
+		dst: "https://bitbucket.org/ns9tks/vim-fuzzyfinder",
+	},
 }
 
 func TestSourceURI(t *testing.T) {
