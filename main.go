@@ -26,7 +26,6 @@ Options:
   -f, --filetype=TYPE       installing under the ftbundle/TYPE
   -r, --remove              change the behavior to remove
   -u, --update              change the behavior to clean update
-  -v, --verbose             display the process
   -h, --help                show this help message
 `[1:])
 }
@@ -45,10 +44,6 @@ func main() {
 	flag.BoolVar(&removeMode, "remove", false, "")
 	flag.BoolVar(&updateMode, "u", false, "")
 	flag.BoolVar(&updateMode, "update", false, "")
-
-	var verbose bool
-	flag.BoolVar(&verbose, "v", false, "")
-	flag.BoolVar(&verbose, "verbose", false, "")
 
 	var isHelp bool
 	flag.BoolVar(&isHelp, "h", false, "")
@@ -73,7 +68,6 @@ func main() {
 		printError(err)
 		os.Exit(1)
 	}
-	p.Verbose(verbose)
 
 	switch {
 	case removeMode:

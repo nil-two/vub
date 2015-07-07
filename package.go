@@ -40,9 +40,8 @@ func ToDestinationPath(uri, filetype string) (string, error) {
 }
 
 type Package struct {
-	verbose bool
-	src     string
-	dst     string
+	src string
+	dst string
 }
 
 func NewPackage(uri, filetype string) (*Package, error) {
@@ -64,10 +63,6 @@ func (p *Package) toCommand() *exec.Cmd {
 	return exec.Command("git", "clone", p.src, p.dst)
 }
 
-func (p *Package) Verbose(enable bool) {
-	p.verbose = enable
-}
-
 func (p *Package) installed() bool {
 	_, err := os.Stat(p.dst)
 	return err == nil
@@ -80,14 +75,6 @@ func (p *Package) Install(out io.Writer) error {
 	c := p.toCommand()
 	w := bytes.NewBuffer(make([]byte, 0))
 	c.Stderr = w
-	if out != nil && p.verbose {
-		c.Stdout = out
-		c.Stderr = out
-		_, err := fmt.Fprintln(out, strings.Join(c.Args, " "))
-		if err != nil {
-			return err
-		}
-	}
 	if err := c.Run(); err != nil {
 		return fmt.Errorf("%s\n%s",
 			err.Error(), strings.TrimRight(w.String(), "\n"))
@@ -98,12 +85,6 @@ func (p *Package) Install(out io.Writer) error {
 func (p *Package) Remove(out io.Writer) error {
 	if !p.installed() {
 		return nil
-	}
-	if out != nil && p.verbose {
-		_, err := fmt.Fprintln(out, "rm -r", p.dst)
-		if err != nil {
-			return err
-		}
 	}
 	return os.RemoveAll(p.dst)
 }
