@@ -32,11 +32,7 @@ var sourceURITests = []struct {
 func TestSourceURI(t *testing.T) {
 	for _, test := range sourceURITests {
 		expect := test.dst
-		actual, err := ToSourceURI(test.src)
-		if err != nil {
-			t.Errorf("ToSourceURI(%q) returns %q, want nil",
-				test.src, err)
-		}
+		actual := ToSourceURI(test.src)
 		if actual != expect {
 			t.Errorf("%q: got %q, want %q",
 				test.src, actual, expect)
