@@ -116,7 +116,7 @@ func TestPackageToCommnad(t *testing.T) {
 	expect := exec.Command("git", "clone",
 		"https://github.com/sunaku/vim-unbundle",
 		filepath.Join(dotvim, "bundle", "vim-unbundle"))
-	actual := p.toCommand()
+	actual := p.toInstallCommand()
 	if !reflect.DeepEqual(actual.Args, expect.Args) {
 		t.Errorf("(filetype=%q, uri=%q): got %q, want %q",
 			filetype, src, actual, expect)

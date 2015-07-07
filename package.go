@@ -59,7 +59,7 @@ func NewPackage(uri, filetype string) (*Package, error) {
 	}, nil
 }
 
-func (p *Package) toCommand() *exec.Cmd {
+func (p *Package) toInstallCommand() *exec.Cmd {
 	return exec.Command("git", "clone", p.src, p.dst)
 }
 
@@ -72,7 +72,7 @@ func (p *Package) Install(out io.Writer) error {
 	if p.installed() {
 		return nil
 	}
-	c := p.toCommand()
+	c := p.toInstallCommand()
 	errMessage := bytes.NewBuffer(make([]byte, 0))
 	c.Stderr = errMessage
 	if err := c.Run(); err != nil {
