@@ -94,7 +94,7 @@ func (p *Package) Remove() error {
 
 func (p *Package) Update() error {
 	if p.installed() {
-		return p.Remove()
+		p.Remove()
 	}
 	return p.Install()
 }
