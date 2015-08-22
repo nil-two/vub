@@ -101,10 +101,10 @@ func (p *Package) Install() error {
 }
 
 func (p *Package) Remove() error {
-	if !p.installed() {
-		return nil
+	if p.installed() {
+		return os.RemoveAll(p.dst)
 	}
-	return os.RemoveAll(p.dst)
+	return nil
 }
 
 func (p *Package) Update() error {
