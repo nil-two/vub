@@ -115,20 +115,6 @@ func TestPackage(t *testing.T) {
 	}
 }
 
-func TestPackageToCommnad(t *testing.T) {
-	src, filetype := "sunaku/vim-unbundle", ""
-	p := NewPackage(src, filetype)
-
-	expect := exec.Command("git", "clone",
-		"https://github.com/sunaku/vim-unbundle",
-		filepath.Join(dotvim, "bundle", "vim-unbundle"))
-	actual := p.toInstallCommand()
-	if !reflect.DeepEqual(actual.Args, expect.Args) {
-		t.Errorf("(filetype=%q, uri=%q): got %q, want %q",
-			filetype, src, actual, expect)
-	}
-}
-
 func TestInstalled(t *testing.T) {
 	src, filetype := "sunaku/vim-unbundle", ""
 	p := NewPackage(src, filetype)
