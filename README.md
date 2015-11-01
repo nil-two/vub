@@ -27,6 +27,7 @@ Usage
 	  -r, --remove              change the behavior to remove
 	  -u, --update              change the behavior to clean update
 	      --help                show this help message
+	      --version             output version information
 
 Installation
 ------------

@@ -28,6 +28,13 @@ Options:
   -r, --remove              change the behavior to remove
   -u, --update              change the behavior to clean update
       --help                show this help message
+      --version             output version information
+`[1:])
+}
+
+func version() {
+	os.Stderr.WriteString(`
+v0.2.0
 `[1:])
 }
 
@@ -58,13 +65,17 @@ func main() {
 	flag.BoolVar(&updateMode, "u", false, "")
 	flag.BoolVar(&updateMode, "update", false, "")
 
-	var isHelp bool
+	var isHelp, isVersion bool
 	flag.BoolVar(&isHelp, "help", false, "")
+	flag.BoolVar(&isVersion, "version", false, "")
 	flag.Usage = usage
 	flag.Parse()
 	switch {
 	case isHelp:
 		usage()
+		os.Exit(0)
+	case isVersion:
+		version()
 		os.Exit(0)
 	case !listMode && flag.NArg() < 1:
 		shortUsage()
