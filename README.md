@@ -26,7 +26,7 @@ Usage
 	  -l, --list                change the behavior to list packages
 	  -r, --remove              change the behavior to remove
 	  -u, --update              change the behavior to clean update
-	  -h, --help                show this help message
+	      --help                show this help message
 
 Installation
 ------------
