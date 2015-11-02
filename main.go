@@ -8,14 +8,14 @@ import (
 
 func shortUsage() {
 	os.Stderr.WriteString(`
-Usage: vub [OPTION]... URI
+Usage: vub [OPTION]... URI...
 Try 'vub --help' for more information.
 `[1:])
 }
 
 func usage() {
 	os.Stderr.WriteString(`
-Usage: vub [OPTION]... URI
+Usage: vub [OPTION]... URI...
 Install Vim plugin to under the management of vim-unbundle.
 
 URI:

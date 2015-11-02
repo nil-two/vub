@@ -15,7 +15,7 @@ Install Vim plugin to under the management of
 
 Usage
 -----
-	$ vub [OPTION]... URI
+	$ vub [OPTION]... URI...
 
 	URI:
 	  sunaku/vim-unbundle                    # short URI
