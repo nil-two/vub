@@ -45,7 +45,7 @@ func ToDestinationPath(uri, filetype string) string {
 	return filepath.Join(dotvim, "ftbundle", filetype, name)
 }
 
-func ListPackages(filetype string) error {
+func ListPackages(filetype string) {
 	var path string
 	if filetype == "" {
 		path = filepath.Join(dotvim, "bundle")
@@ -58,7 +58,6 @@ func ListPackages(filetype string) error {
 	for _, file := range files {
 		fmt.Println(file.Name())
 	}
-	return nil
 }
 
 type Package struct {

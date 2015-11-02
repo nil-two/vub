@@ -91,7 +91,7 @@ func main() {
 	var err error
 	switch {
 	case listMode:
-		err = ListPackages(filetype)
+		ListPackages(filetype)
 	case removeMode:
 		err = p.Remove()
 	case updateMode:
