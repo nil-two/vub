@@ -84,23 +84,26 @@ func main() {
 		printError(fmt.Errorf("cannot specify multiple mode"))
 		os.Exit(2)
 	}
-	uri := flag.Arg(0)
 
-	p := NewPackage(uri, filetype)
-
-	var err error
 	switch {
 	case listMode:
 		ListPackages(filetype)
-	case removeMode:
-		err = p.Remove()
-	case updateMode:
-		err = p.Update()
 	default:
-		err = p.Install()
-	}
-	if err != nil {
-		printError(err)
-		os.Exit(1)
+		var err error
+		for _, uri := range flag.Args() {
+			p := NewPackage(uri, filetype)
+			switch {
+			case removeMode:
+				err = p.Remove()
+			case updateMode:
+				err = p.Update()
+			default:
+				err = p.Install()
+			}
+			if err != nil {
+				printError(err)
+				os.Exit(1)
+			}
+		}
 	}
 }
