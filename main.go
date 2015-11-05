@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
 )
 
@@ -53,23 +54,29 @@ func printError(err error) {
 }
 
 func main() {
+	f := flag.NewFlagSet("vub", flag.ContinueOnError)
+	f.SetOutput(ioutil.Discard)
+
 	var filetype string
-	flag.StringVar(&filetype, "f", "", "")
-	flag.StringVar(&filetype, "filetype", "", "")
+	f.StringVar(&filetype, "f", "", "")
+	f.StringVar(&filetype, "filetype", "", "")
 
 	var listMode, removeMode, updateMode bool
-	flag.BoolVar(&listMode, "l", false, "")
-	flag.BoolVar(&listMode, "list", false, "")
-	flag.BoolVar(&removeMode, "r", false, "")
-	flag.BoolVar(&removeMode, "remove", false, "")
-	flag.BoolVar(&updateMode, "u", false, "")
-	flag.BoolVar(&updateMode, "update", false, "")
+	f.BoolVar(&listMode, "l", false, "")
+	f.BoolVar(&listMode, "list", false, "")
+	f.BoolVar(&removeMode, "r", false, "")
+	f.BoolVar(&removeMode, "remove", false, "")
+	f.BoolVar(&updateMode, "u", false, "")
+	f.BoolVar(&updateMode, "update", false, "")
 
 	var isHelp, isVersion bool
-	flag.BoolVar(&isHelp, "help", false, "")
-	flag.BoolVar(&isVersion, "version", false, "")
-	flag.Usage = usage
-	flag.Parse()
+	f.BoolVar(&isHelp, "help", false, "")
+	f.BoolVar(&isVersion, "version", false, "")
+
+	if err := f.Parse(os.Args[1:]); err != nil {
+		printError(err)
+		os.Exit(2)
+	}
 	switch {
 	case isHelp:
 		usage()
@@ -77,7 +84,7 @@ func main() {
 	case isVersion:
 		version()
 		os.Exit(0)
-	case !listMode && flag.NArg() < 1:
+	case !listMode && f.NArg() < 1:
 		shortUsage()
 		os.Exit(2)
 	case countTrue(listMode, removeMode, updateMode) > 1:
@@ -90,7 +97,7 @@ func main() {
 		ListPackages(filetype)
 	default:
 		var err error
-		for _, uri := range flag.Args() {
+		for _, uri := range f.Args() {
 			p := NewPackage(uri, filetype)
 			switch {
 			case removeMode:
