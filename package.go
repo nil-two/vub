@@ -61,19 +61,19 @@ func ListPackages(filetype string) {
 }
 
 type Package struct {
-	src string
-	dst string
+	srcURI  string
+	dstPath string
 }
 
 func NewPackage(uri, filetype string) *Package {
 	return &Package{
-		src: ToSourceURI(uri),
-		dst: ToDestinationPath(uri, filetype),
+		srcURI:  ToSourceURI(uri),
+		dstPath: ToDestinationPath(uri, filetype),
 	}
 }
 
 func (p *Package) installed() bool {
-	_, err := os.Stat(p.dst)
+	_, err := os.Stat(p.dstPath)
 	return err == nil
 }
 
@@ -86,7 +86,7 @@ func (p *Package) Install() error {
 		return err
 	}
 	errBuf := bytes.NewBuffer(make([]byte, 0))
-	c := exec.Command("git", "clone", p.src, p.dst)
+	c := exec.Command("git", "clone", p.srcURI, p.dstPath)
 	c.Stderr = errBuf
 	if err := c.Run(); err != nil {
 		return fmt.Errorf("%s", strings.TrimSpace(errBuf.String()))
@@ -96,13 +96,13 @@ func (p *Package) Install() error {
 
 func (p *Package) Remove() error {
 	if p.installed() {
-		return os.RemoveAll(p.dst)
+		return os.RemoveAll(p.dstPath)
 	}
 	return nil
 }
 
 func (p *Package) Update() error {
-	if !p.installed(); err != nil {
+	if !p.installed() {
 		if err := p.Install(); err != nil {
 			return err
 		}
@@ -113,7 +113,7 @@ func (p *Package) Update() error {
 	}
 	errBuf := bytes.NewBuffer(make([]byte, 0))
 	c := exec.Command("git", "pull")
-	c.Dir = p.dst
+	c.Dir = p.dstPath
 	c.Stderr = errBuf
 	if err := c.Run(); err != nil {
 		return fmt.Errorf("%s", strings.TrimSpace(errBuf.String()))

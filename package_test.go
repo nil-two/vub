@@ -104,8 +104,8 @@ func TestPackage(t *testing.T) {
 	src, filetype := "sunaku/vim-unbundle", ""
 
 	expect := &Package{
-		src: "https://github.com/sunaku/vim-unbundle",
-		dst: filepath.Join(dotvim, "bundle", "vim-unbundle"),
+		srcURI:  "https://github.com/sunaku/vim-unbundle",
+		dstPath: filepath.Join(dotvim, "bundle", "vim-unbundle"),
 	}
 	actual := NewPackage(src, filetype)
 	if !reflect.DeepEqual(actual, expect) {
@@ -118,7 +118,7 @@ func TestInstalled(t *testing.T) {
 	src, filetype := "sunaku/vim-unbundle", ""
 	p := NewPackage(src, filetype)
 
-	_, err := os.Stat(p.dst)
+	_, err := os.Stat(p.dstPath)
 	expect := err == nil
 	actual := p.installed()
 	if actual != expect {
