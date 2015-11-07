@@ -102,8 +102,21 @@ func (p *Package) Remove() error {
 }
 
 func (p *Package) Update() error {
-	if err := p.Remove(); err != nil {
+	if !p.installed(); err != nil {
+		if err := p.Install(); err != nil {
+			return err
+		}
+	}
+
+	if _, err := exec.LookPath("git"); err != nil {
 		return err
 	}
-	return p.Install()
+	errBuf := bytes.NewBuffer(make([]byte, 0))
+	c := exec.Command("git", "pull")
+	c.Dir = p.dst
+	c.Stderr = errBuf
+	if err := c.Run(); err != nil {
+		return fmt.Errorf("%s", strings.TrimSpace(errBuf.String()))
+	}
+	return nil
 }
