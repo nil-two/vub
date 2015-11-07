@@ -85,9 +85,8 @@ func (p *Package) Install() error {
 	if _, err := exec.LookPath("git"); err != nil {
 		return err
 	}
-	c := exec.Command("git", "clone", p.src, p.dst)
-
 	errBuf := bytes.NewBuffer(make([]byte, 0))
+	c := exec.Command("git", "clone", p.src, p.dst)
 	c.Stderr = errBuf
 	if err := c.Run(); err != nil {
 		return fmt.Errorf("%s", strings.TrimSpace(errBuf.String()))
