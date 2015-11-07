@@ -45,6 +45,21 @@ func ToDestinationPath(uri, filetype string) string {
 	return filepath.Join(dotvim, "ftbundle", filetype, name)
 }
 
+func RunCommand(dir string, name string, arg ...string) error {
+	if _, err := exec.LookPath(name); err != nil {
+		return err
+	}
+
+	errBuf := bytes.NewBuffer(make([]byte, 0))
+	c := exec.Command(name, arg...)
+	c.Dir = dir
+	c.Stderr = errBuf
+	if err := c.Run(); err != nil {
+		return fmt.Errorf("%s", strings.TrimSpace(errBuf.String()))
+	}
+	return nil
+}
+
 func ListPackages(filetype string) {
 	var path string
 	if filetype == "" {
@@ -81,17 +96,7 @@ func (p *Package) Install() error {
 	if p.installed() {
 		return nil
 	}
-
-	if _, err := exec.LookPath("git"); err != nil {
-		return err
-	}
-	errBuf := bytes.NewBuffer(make([]byte, 0))
-	c := exec.Command("git", "clone", p.srcURI, p.dstPath)
-	c.Stderr = errBuf
-	if err := c.Run(); err != nil {
-		return fmt.Errorf("%s", strings.TrimSpace(errBuf.String()))
-	}
-	return nil
+	return RunCommand("", "git", "clone", p.srcURI, p.dstPath)
 }
 
 func (p *Package) Remove() error {
@@ -107,16 +112,5 @@ func (p *Package) Update() error {
 			return err
 		}
 	}
-
-	if _, err := exec.LookPath("git"); err != nil {
-		return err
-	}
-	errBuf := bytes.NewBuffer(make([]byte, 0))
-	c := exec.Command("git", "pull")
-	c.Dir = p.dstPath
-	c.Stderr = errBuf
-	if err := c.Run(); err != nil {
-		return fmt.Errorf("%s", strings.TrimSpace(errBuf.String()))
-	}
-	return nil
+	return RunCommand(p.dstPath, "git", "pull")
 }
