@@ -1,7 +1,7 @@
 vub
 ===
  
-[![Build Status](https://travis-ci.org/kusabashira/vub.svg?branch=master)](https://travis-ci.org/kusabashira/vub.svg?branch=master)
+[![Build Status](https://travis-ci.org/kusabashira/vub.svg?branch=master)](https://travis-ci.org/kusabashira/vub)
  
 Install Vim plugin to under the management of
 [vim-unbundle](https://github.com/sunaku/vim-unbundle).
