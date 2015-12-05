@@ -39,11 +39,11 @@ Options:
 Installation
 ------------
  
-###compiled binary(not yet)
+### compiled binary(not yet)
  
 See [releases](https://github.com/kusabashira/vub/releases)
  
-###go get
+### go get
  
 ```
 go get github.com/kusabashira/vub
