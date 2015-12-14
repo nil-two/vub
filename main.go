@@ -70,6 +70,7 @@ func main() {
 	f.BoolVar(&updateMode, "update", false, "")
 
 	var isHelp, isVersion bool
+	f.BoolVar(&isHelp, "h", false, "")
 	f.BoolVar(&isHelp, "help", false, "")
 	f.BoolVar(&isVersion, "version", false, "")
 
