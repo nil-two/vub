@@ -39,7 +39,7 @@ Options:
 Installation
 ------------
  
-### compiled binary(not yet)
+### compiled binary
  
 See [releases](https://github.com/kusabashira/vub/releases)
  
