@@ -29,6 +29,16 @@ func init() {
 	flagset.BoolVar(isHelp, "h", false, "")
 }
 
+func countTrue(bls ...bool) int {
+	cnt := 0
+	for _, b := range bls {
+		if b {
+			cnt++
+		}
+	}
+	return cnt
+}
+
 func printShortUsage() {
 	fmt.Fprintf(os.Stderr, `
 Usage: %[1]s [OPTION]... URI...
@@ -57,16 +67,6 @@ Options:
 
 func printVersion() {
 	fmt.Fprintln(os.Stderr, version)
-}
-
-func countTrue(bls ...bool) int {
-	cnt := 0
-	for _, b := range bls {
-		if b {
-			cnt++
-		}
-	}
-	return cnt
 }
 
 func printError(err error) {
