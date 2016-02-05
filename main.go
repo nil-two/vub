@@ -69,13 +69,13 @@ func printVersion() {
 	fmt.Fprintln(os.Stderr, version)
 }
 
-func printError(err error) {
+func printErr(err error) {
 	fmt.Fprintf(os.Stderr, "%s: %s\n", name, err)
 }
 
 func main() {
 	if err := flagset.Parse(os.Args[1:]); err != nil {
-		printError(err)
+		printErr(err)
 		os.Exit(2)
 	}
 	switch {
@@ -89,7 +89,7 @@ func main() {
 		printShortUsage()
 		os.Exit(2)
 	case countTrue(*listMode, *removeMode, *updateMode) > 1:
-		printError(fmt.Errorf("cannot specify multiple mode"))
+		printErr(fmt.Errorf("cannot specify multiple mode"))
 		os.Exit(2)
 	}
 
@@ -109,7 +109,7 @@ func main() {
 				err = p.Install()
 			}
 			if err != nil {
-				printError(err)
+				printErr(err)
 				os.Exit(1)
 			}
 		}
