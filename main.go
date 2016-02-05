@@ -8,19 +8,20 @@ import (
 )
 
 var (
+	name    = "vub"
 	version = "0.3.1"
 )
 
 func printShortUsage() {
-	os.Stderr.WriteString(`
-Usage: vub [OPTION]... URI...
-Try 'vub --help' for more information.
-`[1:])
+	fmt.Fprintf(os.Stderr, `
+Usage: %[1]s [OPTION]... URI...
+Try '%[1]s --help' for more information.
+`[1:], name)
 }
 
 func printUsage() {
-	os.Stderr.WriteString(`
-Usage: vub [OPTION]... URI...
+	fmt.Fprintf(os.Stderr, `
+Usage: %s [OPTION]... URI...
 Install Vim plugin to under the management of vim-unbundle.
 
 URI:
@@ -34,7 +35,7 @@ Options:
   -u, --update              change the behavior to update
       --help                show this help message
       --version             output version information
-`[1:])
+`[1:], name)
 }
 
 func printVersion() {
@@ -52,11 +53,11 @@ func countTrue(bls ...bool) int {
 }
 
 func printError(err error) {
-	fmt.Fprintln(os.Stderr, "vub:", err)
+	fmt.Fprintf(os.Stderr, "%s: %s\n", name, err)
 }
 
 func main() {
-	f := flag.NewFlagSet("vub", flag.ContinueOnError)
+	f := flag.NewFlagSet(name, flag.ContinueOnError)
 	f.SetOutput(ioutil.Discard)
 
 	var filetype string
