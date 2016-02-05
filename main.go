@@ -18,7 +18,7 @@ Try 'vub --help' for more information.
 `[1:])
 }
 
-func usage() {
+func printUsage() {
 	os.Stderr.WriteString(`
 Usage: vub [OPTION]... URI...
 Install Vim plugin to under the management of vim-unbundle.
@@ -82,7 +82,7 @@ func main() {
 	}
 	switch {
 	case isHelp:
-		usage()
+		printUsage()
 		os.Exit(0)
 	case isVersion:
 		printVersion()
