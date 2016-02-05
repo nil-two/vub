@@ -45,7 +45,7 @@ func ToDestinationPath(uri, filetype string) string {
 	return filepath.Join(dotvim, "ftbundle", filetype, name)
 }
 
-func RunCommand(dir string, name string, arg ...string) error {
+func RunCommandOn(dir string, name string, arg ...string) error {
 	if _, err := exec.LookPath(name); err != nil {
 		return err
 	}
@@ -96,7 +96,7 @@ func (p *Package) Install() error {
 	if p.installed() {
 		return nil
 	}
-	return RunCommand("", "git", "clone", p.srcURI, p.dstPath)
+	return RunCommandOn("", "git", "clone", p.srcURI, p.dstPath)
 }
 
 func (p *Package) Remove() error {
@@ -110,5 +110,5 @@ func (p *Package) Update() error {
 	if !p.installed() {
 		return p.Install()
 	}
-	return RunCommand(p.dstPath, "git", "pull")
+	return RunCommandOn(p.dstPath, "git", "pull")
 }
