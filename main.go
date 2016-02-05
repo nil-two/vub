@@ -33,7 +33,7 @@ Options:
 `[1:])
 }
 
-func version() {
+func printVersion() {
 	os.Stderr.WriteString(`
 0.3.1
 `[1:])
@@ -83,7 +83,7 @@ func main() {
 		usage()
 		os.Exit(0)
 	case isVersion:
-		version()
+		printVersion()
 		os.Exit(0)
 	case !listMode && f.NArg() < 1:
 		shortUsage()
