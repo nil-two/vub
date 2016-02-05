@@ -11,7 +11,7 @@ var (
 	version = "0.3.1"
 )
 
-func shortUsage() {
+func printShortUsage() {
 	os.Stderr.WriteString(`
 Usage: vub [OPTION]... URI...
 Try 'vub --help' for more information.
@@ -88,7 +88,7 @@ func main() {
 		printVersion()
 		os.Exit(0)
 	case !listMode && f.NArg() < 1:
-		shortUsage()
+		printShortUsage()
 		os.Exit(2)
 	case countTrue(listMode, removeMode, updateMode) > 1:
 		printError(fmt.Errorf("cannot specify multiple mode"))
