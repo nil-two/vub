@@ -10,7 +10,24 @@ import (
 var (
 	name    = "vub"
 	version = "0.3.1"
+
+	flagset    = flag.NewFlagSet(name, flag.ContinueOnError)
+	filetype   = flagset.String("filetype", "", "")
+	listMode   = flagset.Bool("list", false, "")
+	removeMode = flagset.Bool("remove", false, "")
+	updateMode = flagset.Bool("update", false, "")
+	isHelp     = flagset.Bool("help", false, "")
+	isVersion  = flagset.Bool("version", false, "")
 )
+
+func init() {
+	flagset.SetOutput(ioutil.Discard)
+	flagset.StringVar(filetype, "f", "", "")
+	flagset.BoolVar(listMode, "l", false, "")
+	flagset.BoolVar(removeMode, "r", false, "")
+	flagset.BoolVar(updateMode, "u", false, "")
+	flagset.BoolVar(isHelp, "h", false, "")
+}
 
 func printShortUsage() {
 	fmt.Fprintf(os.Stderr, `
@@ -57,56 +74,36 @@ func printError(err error) {
 }
 
 func main() {
-	f := flag.NewFlagSet(name, flag.ContinueOnError)
-	f.SetOutput(ioutil.Discard)
-
-	var filetype string
-	f.StringVar(&filetype, "f", "", "")
-	f.StringVar(&filetype, "filetype", "", "")
-
-	var listMode, removeMode, updateMode bool
-	f.BoolVar(&listMode, "l", false, "")
-	f.BoolVar(&listMode, "list", false, "")
-	f.BoolVar(&removeMode, "r", false, "")
-	f.BoolVar(&removeMode, "remove", false, "")
-	f.BoolVar(&updateMode, "u", false, "")
-	f.BoolVar(&updateMode, "update", false, "")
-
-	var isHelp, isVersion bool
-	f.BoolVar(&isHelp, "h", false, "")
-	f.BoolVar(&isHelp, "help", false, "")
-	f.BoolVar(&isVersion, "version", false, "")
-
-	if err := f.Parse(os.Args[1:]); err != nil {
+	if err := flagset.Parse(os.Args[1:]); err != nil {
 		printError(err)
 		os.Exit(2)
 	}
 	switch {
-	case isHelp:
+	case *isHelp:
 		printUsage()
 		os.Exit(0)
-	case isVersion:
+	case *isVersion:
 		printVersion()
 		os.Exit(0)
-	case !listMode && f.NArg() < 1:
+	case !*listMode && flagset.NArg() < 1:
 		printShortUsage()
 		os.Exit(2)
-	case countTrue(listMode, removeMode, updateMode) > 1:
+	case countTrue(*listMode, *removeMode, *updateMode) > 1:
 		printError(fmt.Errorf("cannot specify multiple mode"))
 		os.Exit(2)
 	}
 
 	switch {
-	case listMode:
-		ListPackages(filetype)
+	case *listMode:
+		ListPackages(*filetype)
 	default:
 		var err error
-		for _, uri := range f.Args() {
-			p := NewPackage(uri, filetype)
+		for _, uri := range flagset.Args() {
+			p := NewPackage(uri, *filetype)
 			switch {
-			case removeMode:
+			case *removeMode:
 				err = p.Remove()
-			case updateMode:
+			case *updateMode:
 				err = p.Update()
 			default:
 				err = p.Install()
