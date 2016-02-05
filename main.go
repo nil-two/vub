@@ -7,6 +7,10 @@ import (
 	"os"
 )
 
+var (
+	version = "0.3.1"
+)
+
 func shortUsage() {
 	os.Stderr.WriteString(`
 Usage: vub [OPTION]... URI...
@@ -34,9 +38,7 @@ Options:
 }
 
 func printVersion() {
-	os.Stderr.WriteString(`
-0.3.1
-`[1:])
+	fmt.Fprintln(os.Stderr, version)
 }
 
 func countTrue(bls ...bool) int {
