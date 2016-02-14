@@ -7,14 +7,14 @@ Install Vim plugin to under the management of
 [vim-unbundle](https://github.com/sunaku/vim-unbundle).
  
 ```
-#Install previm to under ~/.vim/bundle
-$ vub https://github.com/kannokanno/previm
- 
-#Install vim-quickrun to under ~/.vim/bundle
-$ vub thinca/vim-quickrun
- 
-#Install vim-go to under ~/.vim/ftbundle/go
-$ vub -f go fatih/vim-go
+# Install previm to under ~/.vim/bundle
+vub https://github.com/kannokanno/previm
+
+# Install vim-quickrun to under ~/.vim/bundle
+vub thinca/vim-quickrun
+
+# Install vim-go to under ~/.vim/ftbundle/go
+vub -f go fatih/vim-go
 ```
  
 Usage
