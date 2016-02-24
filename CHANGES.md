@@ -10,7 +10,7 @@
 
 ## v0.2.0 - 2015-11-02
 
-- Allow specifying mutltiple URI.
+- Allow specifying multiple URI.
 - Remove short option for --help.
 - Support --version.
 
