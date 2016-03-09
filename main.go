@@ -60,8 +60,8 @@ Options:
   -l, --list                change the behavior to list packages
   -r, --remove              change the behavior to remove
   -u, --update              change the behavior to update
-      --help                show this help message
-      --version             output version information
+      --help                show this help message and exit
+      --version             output version information and exit
 `[1:], name)
 }
 
