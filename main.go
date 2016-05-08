@@ -78,25 +78,28 @@ func main() {
 		printErr(err)
 		os.Exit(2)
 	}
-	switch {
-	case *isHelp:
+	if *isHelp {
 		printUsage()
 		os.Exit(0)
-	case *isVersion:
+	}
+	if *isVersion {
 		printVersion()
 		os.Exit(0)
-	case !*listMode && flagset.NArg() < 1:
+	}
+
+	if !*listMode && flagset.NArg() < 1 {
 		printShortUsage()
 		os.Exit(2)
-	case countTrue(*listMode, *removeMode, *updateMode) > 1:
+	}
+	if countTrue(*listMode, *removeMode, *updateMode) > 1 {
 		printErr("cannot specify multiple mode")
 		os.Exit(2)
 	}
 
-	switch {
-	case *listMode:
+	if *listMode {
 		ListPackages(*filetype)
-	default:
+		os.Exit(0)
+	} else {
 		var err error
 		for _, uri := range flagset.Args() {
 			p := NewPackage(uri, *filetype)
@@ -113,5 +116,6 @@ func main() {
 				os.Exit(1)
 			}
 		}
+		os.Exit(0)
 	}
 }
