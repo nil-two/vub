@@ -68,7 +68,7 @@ func ListPackages(filetype string) {
 		path = filepath.Join(dotvim, "ftbundle", filetype)
 	}
 
-	// Ignore err for filetype doesn't exist.
+	// Ignore err to allow that the filetype doesn't exist
 	files, _ := ioutil.ReadDir(path)
 	for _, file := range files {
 		fmt.Println(file.Name())
