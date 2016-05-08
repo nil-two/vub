@@ -73,32 +73,32 @@ func printErr(err interface{}) {
 	fmt.Fprintf(os.Stderr, "%s: %s\n", name, err)
 }
 
-func main() {
+func _main() int {
 	if err := flagset.Parse(os.Args[1:]); err != nil {
 		printErr(err)
-		os.Exit(2)
+		return 2
 	}
 	if *isHelp {
 		printUsage()
-		os.Exit(0)
+		return 0
 	}
 	if *isVersion {
 		printVersion()
-		os.Exit(0)
+		return 0
 	}
 
 	if !*listMode && flagset.NArg() < 1 {
 		printShortUsage()
-		os.Exit(2)
+		return 2
 	}
 	if countTrue(*listMode, *removeMode, *updateMode) > 1 {
 		printErr("cannot specify multiple mode")
-		os.Exit(2)
+		return 2
 	}
 
 	if *listMode {
 		ListPackages(*filetype)
-		os.Exit(0)
+		return 0
 	} else {
 		var err error
 		for _, uri := range flagset.Args() {
@@ -113,9 +113,14 @@ func main() {
 			}
 			if err != nil {
 				printErr(err)
-				os.Exit(1)
+				return 1
 			}
 		}
-		os.Exit(0)
+		return 0
 	}
+}
+
+func main() {
+	e := _main()
+	os.Exit(e)
 }
