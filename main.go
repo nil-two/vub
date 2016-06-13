@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	cmdName = "vub"
-	version = "0.3.1"
+	cmdName    = "vub"
+	cmdVersion = "0.3.1"
 
 	flagset    = flag.NewFlagSet(cmdName, flag.ContinueOnError)
 	filetype   = flagset.String("filetype", "", "")
@@ -66,7 +66,7 @@ Options:
 }
 
 func printVersion() {
-	fmt.Fprintln(os.Stderr, version)
+	fmt.Fprintln(os.Stderr, cmdVersion)
 }
 
 func printErr(err interface{}) {
