@@ -8,10 +8,10 @@ import (
 )
 
 var (
-	name    = "vub"
+	cmdName = "vub"
 	version = "0.3.1"
 
-	flagset    = flag.NewFlagSet(name, flag.ContinueOnError)
+	flagset    = flag.NewFlagSet(cmdName, flag.ContinueOnError)
 	filetype   = flagset.String("filetype", "", "")
 	listMode   = flagset.Bool("list", false, "")
 	removeMode = flagset.Bool("remove", false, "")
@@ -43,7 +43,7 @@ func printShortUsage() {
 	fmt.Fprintf(os.Stderr, `
 Usage: %[1]s [OPTION]... URI...
 Try '%[1]s --help' for more information.
-`[1:], name)
+`[1:], cmdName)
 }
 
 func printUsage() {
@@ -62,7 +62,7 @@ Options:
   -u, --update              change the behavior to update
       --help                show this help message and exit
       --version             output version information and exit
-`[1:], name)
+`[1:], cmdName)
 }
 
 func printVersion() {
@@ -70,7 +70,7 @@ func printVersion() {
 }
 
 func printErr(err interface{}) {
-	fmt.Fprintf(os.Stderr, "%s: %s\n", name, err)
+	fmt.Fprintf(os.Stderr, "%s: %s\n", cmdName, err)
 }
 
 func _main() int {
