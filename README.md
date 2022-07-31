@@ -1,8 +1,6 @@
 vub
 ===
  
-[![Build Status](https://travis-ci.org/kusabashira/vub.svg?branch=master)](https://travis-ci.org/kusabashira/vub)
- 
 Install Vim plugin to under the management of
 [vim-unbundle](https://github.com/sunaku/vim-unbundle).
  
@@ -41,12 +39,12 @@ Installation
  
 ### compiled binary
  
-See [releases](https://github.com/kusabashira/vub/releases)
+See [releases](https://github.com/nil2nekoni/vub/releases)
  
 ### go get
  
 ```
-go get github.com/kusabashira/vub
+go get github.com/nil2nekoni/vub
 ```
  
 License
@@ -57,4 +55,4 @@ MIT License
 Author
 ------
  
-kusabashira <kusabashira227@gmail.com>
+nil2 <nil2@nil2.org>
