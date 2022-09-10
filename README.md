@@ -39,12 +39,12 @@ Installation
  
 ### compiled binary
  
-See [releases](https://github.com/nil2nekoni/vub/releases)
+See [releases](https://github.com/nil-two/vub/releases)
  
 ### go get
  
 ```
-go get github.com/nil2nekoni/vub
+go get github.com/nil-two/vub
 ```
  
 License
